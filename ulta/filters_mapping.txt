@@ -1,0 +1,31 @@
+concerns:Acne&Blemishes,Imperfections:AcneMarks, Imperfections:General
+concerns:Blackheads&VisiblePores, Imperfections:Blackheads, Imperfections:VisiblePores
+concerns:DarkSpots&UnevenSkinTone,Blemish,Aging:Pigmentation
+concerns:Dryness,Dehydration:Discomfort, Dehydration:General
+concerns:FineLines&Wrinkles,Aging:Wrinkles, Dehydration:Lines
+concerns:Redness,Sensitiveness:Redness
+concerns:Shine,Imperfections:Shine
+
+concerns:Damaged,Dehydration
+concerns:DarkCircles,Aging:General
+concerns:Oiliness,SkinType:OilySkin, Imperfections:Shine(?)
+
+concerns:HeatProtection,
+concerns:DryScalp,
+concerns:Frizz-Free,
+concerns:Thinning,
+
+ingredients:AllNatural,
+ingredients:Gluten-Free,
+ingredients:Mineral,
+ingredients:Oil-Free,
+ingredients:Paraben-Free,
+ingredients:Silicone-Free,
+ingredients:Sulfate-Free,
+
+skintype:All,SkinType:CombinationSkin, SkinType:DrySkin, SkinType:NormalSkin, SkinType:OilySkin, FaceSkinCondition:Sensitiveness
+skintype:Combination,SkinType:CombinationSkin
+skintype:Dry,SkinType:DrySkin
+skintype:Normal,SkinType:NormalSkin
+skintype:Oily,SkinType:OilySkin
+skintype:Sensitive,FaceSkinCondition:Sensitiveness

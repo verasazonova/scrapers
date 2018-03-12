@@ -1,0 +1,8 @@
+*.csv
+*.json
+ulta_images/
+ulta_images_scaled/
+ulta_images_small/
+
+.idea
+
