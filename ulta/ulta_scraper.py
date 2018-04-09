@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import glob
 import pandas as pd
+from utils import process_single_image
 
 filter_type = ["skintype", "ingredients", "concerns"]
 PROD_KEY = "prod-id"
@@ -175,13 +176,6 @@ def scrape_product_pages(name):
 
     df_products = pd.DataFrame(results)
     df_products.to_csv("{}_products.csv".format(name))
-
-
-def process_single_image(url, path):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(path, 'wb') as f:
-            f.write(response.content)
 
 
 def scrape_images(name):
