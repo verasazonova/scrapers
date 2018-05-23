@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import glob
 import pandas as pd
 from utils import process_single_image
+import json
+import demjson
 
 filter_type = ["skintype", "ingredients", "concerns"]
 PROD_KEY = "prod-id"
@@ -87,6 +89,51 @@ def process_product_page(page_, prod_id):
         else:
             d[tag] = x.get_text().strip().encode("utf-8")
     return d
+
+
+def process_single_product(url):
+    #https://www.ulta.com / effaclar - mat - daily - face - moisturizer - oily - skin?productId = xlsImpprod5280325
+
+    page_ind = 1
+    d = []
+    while 1:
+        a = "content/01/87/xlsImpprod5280325-en_US-{}-reviews.js".format(page_ind)
+        page = requests.get('https://global.ulta.com/reviewcenter/pwr/{}'.format(a))
+        if page.status_code != 200:
+            break
+        x = page.content.replace("POWERREVIEWS.common.gResult['{}'] = ".format(a), '')
+
+        results = demjson.decode(x[:-1])
+        page_ind += 1
+        for review in results:
+            g = review['r'].get('g', [])
+            x = dict([(item['k'], ','.join(item['v'])) for item in g])
+            x.update({'title': review['r']['h'],
+                       'text': review['r']['p'],
+                       'review': review['r']['r'],
+                       'data': review['r']['db'],
+                       'user': review['r']['n'],
+                       'location': review['r']['w'],
+                       'bottom_line': review['r']['b']['k']
+                       })
+            d.append(x)
+
+        pd.DataFrame(d).to_csv('xlsImpprod5280325_review.csv')
+
+    # soup = BeautifulSoup(page.content, 'html.parser')
+    # r = soup.find('div', id="pr-contents-xlsImpprod15641100")
+    # #print(r)
+    #
+    # for x in r.find_all('div', class_='pr-review-wrap'):
+    #     #print(x)
+    #     print(x.find('span', class_='pr-rating pr-rounded').get_text()),
+    #     print(x.find('p', class_='pr-review-rating-headline').get_text())
+    #     print(x.find('p', class_='pr-comments').get_text())
+    #     print
+    #     #print(x.find('p', class_='pr-comments').get_text())
+
+
+
 
 
 def scrape(name, with_filters=True):
@@ -192,11 +239,28 @@ def scrape_images(name):
             print("Processed {} images".format(i))
 
 
+def scrape_reviews(name):
+
+    process_single_product('https://global.ulta.com/microdelivery-exfoliating-facial-wash?productId=xlsImpprod15641100')
+
+    # print("Scraping images")
+    # df = pd.read_csv("{}.csv".format(name))
+    # i = 0
+    # for idx, row in df.iterrows():
+    #     process_single_product(row[PROD_KEY])
+    #     i += 1
+    #     if i % 200 == 0:
+    #         print("Processed {} images".format(i))
+
+
+
+
+
 #print("Scaping overall")
 #scrape("ulta", with_filters=False)
 #print("Joining with filtered")
 #join_frames("ulta", "ulta_per_filter/ulta")
 #print("Scraping products")
 #scrape_product_pages("ulta")
-print("Scraping images")
-scrape_images("ulta")
+#scrape_images("ulta")
+scrape_reviews('')
