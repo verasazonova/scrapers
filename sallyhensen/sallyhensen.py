@@ -110,10 +110,5 @@ def join(filename1, filename2):
     df.to_csv('SH_spring_full.csv')
 
 
-# scrape("sallyhansen_may")
-# join("sallyhansen_may.csv", "SH-8.05.csv")
-
-df1 = pd.read_csv('sh-corrected.csv', dtype=str, usecols=['EAN','number', 'CORRECTED_HEX', 'Product Line', 'Name', 'URL'])
-df2 = pd.read_csv('SH_spring_full.csv', dtype=str, usecols=['EAN','colr_swatch_image','image'])
-df = pd.merge(df1, df2, how='outer', on=['EAN'])
-df.to_csv('SH_corrected_full.csv')
+scrape("sallyhansen_may")
+join("sallyhansen_may.csv", "SH-8.05.csv")
